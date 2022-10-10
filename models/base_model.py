@@ -11,6 +11,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         '''BaseModel Constructor'''
+
         if kwargs:
             self.update(*args, **kwargs)
         else:
