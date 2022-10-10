@@ -3,7 +3,7 @@
 
 
 import uuid
-import datetime
+from datetime import datetime
 
 
 class BaseModel:
@@ -12,14 +12,15 @@ class BaseModel:
     def __init__(self):
         '''BaseModel Constructor'''
 
-        self.id = uuid.uuid4()
-        self.created_at = isoformat(datetime.datetime)
-        self.updated_at = None
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.isoformat(datetime.now())
+        self.updated_at = self.created_at
 
     def __str__(self):
         '''Method to change print output of the instance'''
 
-        return ("[{}] ({}) {}".format(self.__name__, self.id, self.__dict__))
+        return ("[{}] ({}) {}".format(self.__class__.__name__,
+                                      self.id, self.__dict__))
 
     def to_save(self):
         '''
@@ -27,9 +28,12 @@ class BaseModel:
         change in the public instance attribute <updated_at>
         '''
 
-        self.updated_at = isoformat(datetime.datetime)
+        self.updated_at = datetime.isoformat(datetime.now())
 
     def to_dict(self):
         '''Used to return a dict of all attribute of the instance'''
-
-
+        # Create the dict
+        dictInst = self.__dict__
+        # Add a key '__class__' with value: the class name of the object
+        dictInst['__class__'] = self.__class__.__name__
+        return dictInst

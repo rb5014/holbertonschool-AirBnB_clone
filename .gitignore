@@ -1,0 +1,2 @@
+# ignore all .mypy_cache directories
+**/.mypy_cache
