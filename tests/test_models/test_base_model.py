@@ -15,7 +15,14 @@ class Test_BaseModel(unittest.TestCase):
         """set up of he test instance base
         """
         self.base = BaseModel()
+        self.base2 = BaseModel()
         self.d = self.base.to_dict()
+
+    def test_attributes(self):
+        """test regular attributes
+        """
+        self.assertNotEqual(self.base.id, self.base2.id)
+        self.assertIsInstance(self.base.created_at, datetime)
 
     def test_save(self):
         """test method save
@@ -30,3 +37,10 @@ class Test_BaseModel(unittest.TestCase):
         self.assertTrue('__class__' in self.d)
         self.assertIsInstance(self.d['created_at'], str)
         self.assertIsInstance(self.d['updated_at'], str)
+
+    def test__str__(self):
+        """test str representation of the instance
+        """
+        s = f"[{self.base.__class__.__name__}] " \
+            f"({self.base.id}) {self.base.__dict__}"
+        self.assertEqual(self.base.__str__(), s)
