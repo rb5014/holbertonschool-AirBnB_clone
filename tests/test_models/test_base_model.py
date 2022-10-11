@@ -28,11 +28,14 @@ class Test_BaseModel(unittest.TestCase):
     def test_save(self):
         """test method save
         """
+        old_created_at = self.base.created_at
+        old_updated_at = self.base.updated_at
         self.base.save()
-        self.assertNotEqual(self.base.created_at, self.base.updated_at)
-        self.updated_at = datetime.utcnow()
-        self.base.save()
-        self.assertNotEqual(self.base.created_at, self.base.updated_at)
+        new_created_at = self.base.created_at
+        new_updated_at = self.base.updated_at
+        self.assertEqual(old_created_at, new_created_at)
+        self.assertNotEqual(new_created_at, new_updated_at)
+        self.assertNotEqual(old_updated_at, new_updated_at)
 
     def test_to_dict(self):
         """test method to_dict
