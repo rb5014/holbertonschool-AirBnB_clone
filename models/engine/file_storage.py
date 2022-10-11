@@ -39,8 +39,11 @@ class FileStorage:
         d = {}
         for obj_id, obj in FileStorage.__objects.items():
             d[obj_id] = obj.to_dict()
-        with open(FileStorage.__file_path, 'w+', encoding="utf-8") as f:
-            json.dump(d, f)
+        try:
+            with open(FileStorage.__file_path, 'w+', encoding="utf-8") as f:
+                json.dump(d, f)
+        except Exception:
+            pass
 
     def reload(self):
         """deserializes the JSON file to
@@ -49,8 +52,10 @@ class FileStorage:
         no exception should be raised)
         """
         from models.base_model import BaseModel
-        if os.path.exists(FileStorage.__file_path):
+        try:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as f:
                 d = json.load(f)
             for obj_id, objd in d.items():
                 FileStorage.__objects[obj_id] = eval(objd['__class__'])(**objd)
+        except Exception:
+            pass

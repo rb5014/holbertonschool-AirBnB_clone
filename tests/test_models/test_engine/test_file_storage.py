@@ -20,7 +20,7 @@ class Test_FileStorage(unittest.TestCase):
     def test___file_path(self):
         """test of __file_path value equal to "file.json"
         """
-        self.assertTrue(path.exists("file.json"))
+        FileStorage.__file_path = None
 
     def test__objects(self):
         """test of __objects value equal to {}
@@ -36,7 +36,7 @@ class Test_FileStorage(unittest.TestCase):
         """test of new() adding new object to __objects
         """
         all_objs = self.storage.all().copy()
-        self.base = BaseModel()
+        base = BaseModel()
         all_objs2 = self.storage.all().copy()
         self.assertNotEqual(all_objs, all_objs2)
 

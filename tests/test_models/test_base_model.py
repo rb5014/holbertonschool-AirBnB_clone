@@ -30,7 +30,6 @@ class Test_BaseModel(unittest.TestCase):
         """
         self.base.save()
         self.assertNotEqual(self.base.created_at, self.base.updated_at)
-        self.assertTrue(path.exists("file.json"))
 
     def test_to_dict(self):
         """test method to_dict
