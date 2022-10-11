@@ -52,3 +52,6 @@ class Test_FileStorage(unittest.TestCase):
         all_objs = self.storage.all().copy()
         for key in all_objs:
             self.assertIsInstance(all_objs[key], BaseModel)
+
+    if __name__ == "__main__":
+        unittest.main()

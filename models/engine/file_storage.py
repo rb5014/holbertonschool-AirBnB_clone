@@ -52,5 +52,5 @@ class FileStorage:
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as f:
                 d = json.load(f)
-                for obj_id, obj_dict in d.items():
-                    FileStorage.__objects[obj_id] = BaseModel(**obj_dict)
+            for obj_id, objd in d.items():
+                FileStorage.__objects[obj_id] = eval(objd['__class__'])(**objd)

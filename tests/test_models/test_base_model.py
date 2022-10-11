@@ -46,3 +46,6 @@ class Test_BaseModel(unittest.TestCase):
         s = f"[{self.base.__class__.__name__}] " \
             f"({self.base.id}) {self.base.__dict__}"
         self.assertEqual(self.base.__str__(), s)
+
+    if __name__ == "__main__":
+        unittest.main()
