@@ -20,13 +20,15 @@ class Test_FileStorage(unittest.TestCase):
     def test___file_path(self):
         """test of __file_path value equal to "file.json"
         """
+        # test filepath = None
         FileStorage.__file_path = None
         b = BaseModel()
         b.save()
         self.storage.reload()
         with self.assertRaises(Exception):
             self.assertTrue(os.path.exists(FileStorage.__file_path))
-        FileStorage.__file_path = "file.json"
+        # test filepath with another name
+        FileStorage.__file_path = "othername.json"
         b.save()
         self.storage.reload()
         self.assertTrue(os.path.exists(FileStorage.__file_path))
