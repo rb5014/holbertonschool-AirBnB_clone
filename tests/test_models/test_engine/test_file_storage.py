@@ -5,7 +5,7 @@
 import unittest
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-from os import path
+import os
 
 
 class Test_FileStorage(unittest.TestCase):
@@ -21,7 +21,14 @@ class Test_FileStorage(unittest.TestCase):
         """test of __file_path value equal to "file.json"
         """
         FileStorage.__file_path = None
-
+        b = BaseModel()
+        b.save()
+        self.storage.reload()
+        FileStorage.__file_path = "file.json"
+        b.save()
+        self.storage.reload()
+        self.assertTrue(os.path.exists(FileStorage.__file_path))
+        
     def test__objects(self):
         """test of __objects value equal to {}
         """
@@ -44,7 +51,7 @@ class Test_FileStorage(unittest.TestCase):
         """test save() creates a file
         """
         self.storage.save()
-        self.assertTrue(path.exists("file.json"))
+        self.assertTrue(os.path.exists("file.json"))
 
     def test_reload(self):
         """test reload recreates all objects from "file.json"
