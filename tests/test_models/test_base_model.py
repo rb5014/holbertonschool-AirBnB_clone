@@ -5,6 +5,8 @@
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from os import path
 
 
 class Test_BaseModel(unittest.TestCase):
@@ -12,7 +14,7 @@ class Test_BaseModel(unittest.TestCase):
     """
 
     def setUp(self):
-        """set up of he test instance base
+        """set up of the test instance base
         """
         self.base = BaseModel()
         self.base2 = BaseModel()
@@ -29,6 +31,7 @@ class Test_BaseModel(unittest.TestCase):
         """
         self.base.save()
         self.assertNotEqual(self.base.created_at, self.base.updated_at)
+        self.assertTrue(path.exists("file.json"))
 
     def test_to_dict(self):
         """test method to_dict
