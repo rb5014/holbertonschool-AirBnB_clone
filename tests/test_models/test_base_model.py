@@ -4,8 +4,10 @@
 
 import unittest
 from datetime import datetime
+import models
 from models.base_model import BaseModel
 from os import path
+from unittest import mock
 
 
 class Test_BaseModel(unittest.TestCase):
@@ -25,7 +27,8 @@ class Test_BaseModel(unittest.TestCase):
         self.assertNotEqual(self.base.id, self.base2.id)
         self.assertIsInstance(self.base.created_at, datetime)
 
-    def test_save(self):
+    @mock.patch('models.storage.save')
+    def test_save(self, mock_save):
         """test method save
         """
         old_created_at = self.base.created_at
@@ -36,6 +39,7 @@ class Test_BaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertNotEqual(new_created_at, new_updated_at)
         self.assertNotEqual(old_updated_at, new_updated_at)
+        mock_save.assert_called_once()
 
     def test_to_dict(self):
         """test method to_dict
