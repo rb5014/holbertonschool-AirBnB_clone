@@ -9,8 +9,7 @@ class HBNBCommand(cmd.Cmd):
     '''Class used for command prompt'''
 
     prompt = '(hbnb) '
-    intro = ('\n' + '\x1b[6;37;41m' + 'Welcome to the HBNB command interpreter:' 
-             + '\x1b[0m' + '\n')
+    intro = ('\nWelcome to the HBNB command interpreter:\n')
 
     def do_quit(self, line):
         '''Exit Prompt'''
