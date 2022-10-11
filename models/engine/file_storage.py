@@ -30,14 +30,17 @@ class FileStorage:
         sets in __objects the obj with key <obj class name>.id
         """
         FileStorage.__objects[obj.__class__.__name__ + "." +
-                              str(obj.id)] = obj.to_dict()
+                              str(obj.id)] = obj
 
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
+        d = {}
+        for obj_id, obj in FileStorage.__objects.items():
+            d[obj_id] = obj.to_dict()
         with open(FileStorage.__file_path, 'w+', encoding="utf-8") as f:
-            json.dump(FileStorage.__objects, f)
+            json.dump(d, f)
 
     def reload(self):
         """deserializes the JSON file to
@@ -45,6 +48,10 @@ class FileStorage:
         exists ; otherwise, do nothing. If the file doesn’t exist,
         no exception should be raised)
         """
+        from models.base_model import BaseModel
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as f:
-                FileStorage.__objects = json.load(f)
+                d = json.load(f)
+                FileStorage.__objects = {}
+                for obj_id, obj_dict in d.items():
+                    FileStorage.__objects[obj_id] = BaseModel(**obj_dict)
