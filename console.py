@@ -45,6 +45,23 @@ class HBNBCommand(cmd.Cmd):
             l_args = arg.split()
             print(storage.all()[f"{l_args[0]}.{l_args[1]}"])
 
+    def do_all(self, arg):
+        """Prints all string representation of all instances based
+        or not on the class name
+        """
+        d = storage.all()
+        list_obj = []
+        if not arg:
+            for obj_id in d:
+                list_obj.append(str(d[obj_id]))
+            print(list_obj)
+        else:
+            if self.error_checker("all", arg) is True:
+                for obj_id in d:
+                    if arg + "." in obj_id:
+                        list_obj.append(str(d[obj_id]))
+                print(list_obj)
+
     def error_checker(self, cmd_name, arg):
         """Select the error handlers corresponding
         """
