@@ -61,6 +61,14 @@ class HBNBCommand(cmd.Cmd):
                     if arg + "." in obj_id:
                         list_obj.append(str(d[obj_id]))
                 print(list_obj)
+        
+    def do_destroy(self, arg):
+        
+        d = storage.all()
+        l_arg = arg.split()
+        if self.error_checker("destroy", arg) is True:
+            del d[f"{l_arg[0]}.{l_arg[1]}"]
+
 
     def error_checker(self, cmd_name, arg):
         """Select the error handlers corresponding
