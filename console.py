@@ -3,6 +3,8 @@
 
 
 import cmd
+from models.base_model import BaseModel
+import models
 
 
 class HBNBCommand(cmd.Cmd):
@@ -22,5 +24,25 @@ class HBNBCommand(cmd.Cmd):
         '''Do nothing if ENTER is pressed without command'''
         pass
 
+    def do_create(self, arg):
+        '''Creates a new instance of BaseModel, saves it (to the JSON file)
+            and prints the id. Ex: $ create BaseModel
+            If the class name is missing:
+            print ** class name missing ** (ex: $ create)
+            If the class name doesn’t exist:
+            print ** class doesn't exist ** (ex: $ create MyModel)'''
+        if not arg:
+            print("** class name missing **")
+        else:
+            try:
+                b = eval(arg + "()")
+                b.save()
+                print(b.id)
+            except Exception:
+                print("** class doesn't exist **")
+
+    def do_show(self, *arg):
+                  
+
 if __name__ == '__main__':
-        HBNBCommand().cmdloop()
+    HBNBCommand().cmdloop()
