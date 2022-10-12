@@ -5,7 +5,7 @@
 import cmd
 from models.base_model import BaseModel
 from models import storage
-import sys
+import inspect
 
 
 class HBNBCommand(cmd.Cmd):
@@ -87,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
             return False
         if cmd_name != "all" or len(l_args) > 0:
             try:
-                obj = eval(f"{l_args[0]}()")
+                inspect.isclass(eval(l_args[0]))
             except Exception:
                 print("** class doesn't exist **")
                 return False
