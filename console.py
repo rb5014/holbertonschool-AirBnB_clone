@@ -49,13 +49,10 @@ class HBNBCommand(cmd.Cmd):
         """Select the error handlers corresponding
         """
         l_args = arg.split()
-        print(len(l_args))
-        if len(l_args) == 0 and cmd_name != "all":
-            print("** class name missing **")
+
+        if self.class_checker(cmd_name, l_args) is False:
             return False
-        if self.class_checker(l_args[0]) is False:
-            return False
-        if cmd_name != 'create':
+        if cmd_name != 'create' and cmd_name != "all":
             if self.id_checker(l_args) is False:
                 return False
         if cmd_name == 'update':
@@ -63,15 +60,20 @@ class HBNBCommand(cmd.Cmd):
                 return False
         return True
 
-    def class_checker(self, clsname):
+    def class_checker(self, cmd_name, l_args):
         """ Validate first arg if its a class
+        If cmd_name is all, only check l_args[0] if the arg[0] exists
+        in the list (meaning len(l_args) > 0)
         """
-        try:
-            obj = eval(f"{clsname}()")
-        except Exception:
-            print("** class doesn't exist **")
-            return True
-
+        if len(l_args) == 0 and cmd_name != "all":
+            print("** class name missing **")
+            return False
+        if cmd_name != "all" or len(l_args) > 0:
+            try:
+                obj = eval(f"{l_args[0]}()")
+            except Exception:
+                print("** class doesn't exist **")
+                return False
         return True
 
     def id_checker(self, l_args):
