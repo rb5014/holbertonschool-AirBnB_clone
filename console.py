@@ -4,7 +4,8 @@
 
 import cmd
 from models.base_model import BaseModel
-import models
+from models import storage
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -31,18 +32,71 @@ class HBNBCommand(cmd.Cmd):
             print ** class name missing ** (ex: $ create)
             If the class name doesn’t exist:
             print ** class doesn't exist ** (ex: $ create MyModel)'''
-        if not arg:
-            print("** class name missing **")
-        else:
-            try:
-                b = eval(arg + "()")
-                b.save()
-                print(b.id)
-            except Exception:
-                print("** class doesn't exist **")
+        if self.error_checker("create", arg) is True:
+            b = eval(f"{arg}()")
+            b.save()
+            print(b.id)
 
-    def do_show(self, *arg):
-                  
+    def do_show(self, arg):
+        """Prints the string representation of an instance based
+        on the class name and id
+        """
+        if self.error_checker("show", arg) is True:
+            l_args = arg.split()
+            print(storage.all()[f"{l_args[0]}.{l_args[1]}"])
+
+    def error_checker(self, cmd_name, arg):
+        """Select the error handlers corresponding
+        """
+        l_args = arg.split()
+        print(len(l_args))
+        if len(l_args) == 0 and cmd_name != "all":
+            print("** class name missing **")
+            return False
+        if self.class_checker(l_args[0]) is False:
+            return False
+        if cmd_name != 'create':
+            if self.id_checker(l_args) is False:
+                return False
+        if cmd_name == 'update':
+            if self.attribute_checker(l_args) is False:
+                return False
+        return True
+
+    def class_checker(self, clsname):
+        """ Validate first arg if its a class
+        """
+        try:
+            obj = eval(f"{clsname}()")
+        except Exception:
+            print("** class doesn't exist **")
+            return True
+
+        return True
+
+    def id_checker(self, l_args):
+        """Validate second arg if the id  matches an object
+        """
+        if len(l_args) < 2:
+            print("** instance id missing **")
+            return False
+        if l_args[0] + "." + l_args[1] not in storage.all():
+            print("** no instance found **")
+            return False
+        return True
+
+    def attribute_checker(self, l_args):
+        """Validate third arg and fourth arg
+        if the attribute name and attribute value are valid
+        """
+        if len(l_args) < 3:
+            print("** attribute name missing **")
+            return False
+        if len(l_args) < 4:
+            print("** value missing **")
+            return False
+        return True
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
