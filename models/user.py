@@ -17,7 +17,7 @@ class User(BaseModel):
         """
         Constructor for User class
         """
-
+        super().__init__()
         self.email = ""
         self.password = ""
         self.first_name = ""
