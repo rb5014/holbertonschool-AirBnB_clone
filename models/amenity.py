@@ -13,10 +13,3 @@ class Amenity(BaseModel):
     Class that define Amenity's data based on BaseModel 
     """
     name = ""
-    
-    def __init__(self, *args, **kwargs):
-        """
-        Constructor for Amenity class
-        """
-
-        super().__init__()
