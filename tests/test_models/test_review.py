@@ -8,7 +8,6 @@ from models.base_model import BaseModel
 from models.review import Review
 
 
-
 class Test_Classes(unittest.TestCase):
     """Test different attributes and methods of review instances
     """
