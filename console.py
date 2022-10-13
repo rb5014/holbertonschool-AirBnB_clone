@@ -77,9 +77,9 @@ class HBNBCommand(cmd.Cmd):
             print(list_obj)
 
     def do_destroy(self, arg):
-        l_arg = tuple(arg.split())
+        tuple_arg = tuple(arg.split())
         if Errors_.error_checker("destroy", arg) is True:
-            del d[f"{l_arg[0]}.{l_arg[1]}"]
+            del d[f"{tuple_arg[0]}.{tuple_arg[1]}"]
 
     def do_count(self, arg):
         """Count and print the number of instances of a class
@@ -90,6 +90,18 @@ class HBNBCommand(cmd.Cmd):
                 if arg + "." in obj_id:
                     nb_instances += 1
             print(nb_instances)
+
+    def do_update(self, arg):
+        """Updates an instance based on the class name 
+        and id by adding or updating attribute
+        """
+        tuple_arg = re.split('[ "]', arg)    
+        if Errors_.error_checker("update", arg) is True:
+            for inst in d:
+                if tuple_arg[1] in inst:
+                    obj = d[inst]
+            l_dict = {tuple_arg[2]: tuple_arg[4]}
+            obj.update(**l_dict)
 
     def default(self, line: str) -> None:
         """Default behavior when command prefix not recognized
