@@ -5,7 +5,6 @@
 import cmd
 from models.base_model import BaseModel
 from models.user import User
-from models.user import User
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
@@ -100,10 +99,10 @@ class HBNBCommand(cmd.Cmd):
             print(nb_instances)
 
     def do_update(self, arg):
-        """Updates an instance based on the class name 
+        """Updates an instance based on the class name
         and id by adding or updating attribute
         """
-        tuple_arg = re.split('[ "]', arg)    
+        tuple_arg = re.split('[ "]', arg)
         if Errors_.error_checker("update", arg) is True:
             for inst in d:
                 if tuple_arg[1] in inst:

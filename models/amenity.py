@@ -10,6 +10,6 @@ from models.base_model import BaseModel
 
 class Amenity(BaseModel):
     """
-    Class that define Amenity's data based on BaseModel 
+    Class that define Amenity's data based on BaseModel
     """
     name = ""
