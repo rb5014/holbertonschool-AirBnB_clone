@@ -6,26 +6,23 @@ Module for the new Place class
 
 from models import storage
 from models.base_model import BaseModel
-from models.city import City
-from models.user import User
-from models.amenity import Amenity
 
 
 class Place(BaseModel):
     """
     Class that define Place's data based on BaseModel 
     """
-    city_id = City.id
-    user_id = User.id
+    city_id = ""
+    user_id = ""
     name  = ""
     description = ""
-    number_rooms = ""
-    number_bathrooms = ""
-    max_guest = ""
-    price_by_night = ""
-    latitude = ""
-    longitude = ""
-    amenity_ids = Amenity.id
+    number_rooms = 0.0
+    number_bathrooms = 0.0
+    max_guest = 0.0
+    price_by_night = 0.0
+    latitude = 0.0
+    longitude = 0.0
+    amenity_ids = []
     
     def __init__(self, *args, **kwargs):
         """
