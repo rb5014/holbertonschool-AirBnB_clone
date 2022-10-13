@@ -10,7 +10,7 @@ from models.base_model import BaseModel
 
 class User(BaseModel):
     """
-    Class that define user's data based on BaseModel 
+    Class that define user's data based on BaseModel
     """
     email = ""
     password = ""

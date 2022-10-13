@@ -10,7 +10,7 @@ from models.base_model import BaseModel
 
 class City(BaseModel):
     """
-    Class that define Cityr's data based on BaseModel 
+    Class that define Cityr's data based on BaseModel
     """
     state_id = ""
     name = ""

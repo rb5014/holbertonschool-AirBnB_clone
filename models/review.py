@@ -10,7 +10,7 @@ from models.base_model import BaseModel
 
 class Review(BaseModel):
     """
-    Class that define Review's data based on BaseModel 
+    Class that define Review's data based on BaseModel
     """
     place_id = ""
     user_id = ""

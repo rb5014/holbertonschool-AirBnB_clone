@@ -10,6 +10,6 @@ from models.base_model import BaseModel
 
 class State(BaseModel):
     """
-    Class that define State's data based on BaseModel 
+    Class that define State's data based on BaseModel
     """
     name = ""
