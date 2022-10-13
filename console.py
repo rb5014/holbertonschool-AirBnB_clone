@@ -80,6 +80,7 @@ class HBNBCommand(cmd.Cmd):
         tuple_arg = tuple(arg.split())
         if Errors_.error_checker("destroy", arg) is True:
             del d[f"{tuple_arg[0]}.{tuple_arg[1]}"]
+            storage.save()
 
     def do_count(self, arg):
         """Count and print the number of instances of a class
