@@ -23,5 +23,4 @@ class Review(BaseModel):
         """
         Constructor for Review class
         """
-
         super().__init__()

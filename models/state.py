@@ -12,9 +12,10 @@ class State(BaseModel):
     """
     Class that define State's data based on BaseModel 
     """
+    name = ""
+
     def __init__(self, *args, **kwargs):
         """
         Constructor for State class
         """
-
         super().__init__()

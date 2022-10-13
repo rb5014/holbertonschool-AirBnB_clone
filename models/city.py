@@ -19,5 +19,4 @@ class City(BaseModel):
         """
         Constructor for City class
         """
-
         super().__init__()

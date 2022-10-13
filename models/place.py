@@ -31,5 +31,4 @@ class Place(BaseModel):
         """
         Constructor for Place class
         """
-
         super().__init__()
