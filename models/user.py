@@ -12,14 +12,14 @@ class User(BaseModel):
     """
     Class that define user's data based on BaseModel 
     """
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
 
     def __init__(self, *args, **kwargs):
         """
         Constructor for User class
         """
-
-        self.email = ""
-        self.password = ""
-        self.first_name = ""
-        self.last_name = ""
+        super().__init__()
         storage.new(self)
