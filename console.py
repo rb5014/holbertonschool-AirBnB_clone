@@ -102,13 +102,15 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name
         and id by adding or updating attribute
         """
-        tuple_arg = re.split('[ "]', arg)
+        args = re.split('[ "]', arg)
+        args = [val for val in args if val]
         if Errors_.error_checker("update", arg) is True:
             for inst in d:
-                if tuple_arg[1] in inst:
+                if args[1] in inst:
                     obj = d[inst]
-            l_dict = {tuple_arg[2]: tuple_arg[4]}
+            l_dict = {args[2]: args[3]}
             obj.update(**l_dict)
+            storage.save()
 
     def default(self, line: str) -> None:
         """Default behavior when command prefix not recognized
@@ -116,7 +118,8 @@ class HBNBCommand(cmd.Cmd):
         format "class.func" or "class.show('someid'), etc
         """
         try:
-            args = tuple(re.split('[.()"]', line))
+            args = re.split(r"['\":)(,.\s}{]\s*", line)
+            args = [arg for arg in args if arg]
             self.select_func(args)
         except Exception:
             return super().default(line)
@@ -126,10 +129,22 @@ class HBNBCommand(cmd.Cmd):
         """
         func = args[1]
         cls = args[0]
-        if func == "all" or func == "count":
+        if len(args) > 2:
+            id = args[2]
+        attr_name = []
+        for i in range(0, len(args[3:]), 2):
+            attr_name.append(args[3+i])
+        attr_val = []
+        for i in range(0, len(args[4:]), 2):
+            attr_val.append(args[4+i])
+        if func in ("all", "create", "count"):
             eval(f"self.do_{func}('{cls}')")
-        if func == "show" or func == "destroy":
-            eval(f"self.do_{func}('{cls} {args[3]}')")
+        if func in ("show", "destroy"):
+            eval(f"self.do_{func}('{cls} {id}')")
+        if func == "update":
+            for i in range(len(attr_val)):
+                eval(f"self.do_{func}('{cls} {id} {attr_name[i]}"
+                     f" {attr_val[i]}')")
 
 
 if __name__ == '__main__':

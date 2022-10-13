@@ -4,7 +4,6 @@ Module containing the class FileStorage that serializes instances
 to a JSON file and deserializes JSON file to instances
 """
 import json
-import os
 
 
 class FileStorage:
@@ -41,7 +40,7 @@ class FileStorage:
             d[obj_id] = obj.to_dict()
         try:
             with open(FileStorage.__file_path, 'w+', encoding="utf-8") as f:
-                json.dump(d, f)
+                json.dump(d, f, indent=4)
         except Exception:
             pass
 
