@@ -52,4 +52,8 @@ class BaseModel:
             if key == 'created_at' or key == 'updated_at':
                 setattr(self, key, datetime.fromisoformat(value))
             elif key != '__class__':
+                try:
+                    value = int(value)
+                except Exception:
+                    pass
                 setattr(self, key, value)
