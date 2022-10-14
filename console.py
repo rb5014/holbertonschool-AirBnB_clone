@@ -131,17 +131,20 @@ class HBNBCommand(cmd.Cmd):
         cls = args[0]
         if len(args) > 2:
             id = args[2]
-        attr_name = []
+        attr_name = []  # attr_name and attr_list stored in lists
         for i in range(0, len(args[3:]), 2):
             attr_name.append(args[3+i])
         attr_val = []
         for i in range(0, len(args[4:]), 2):
             attr_val.append(args[4+i])
+
         if func in ("all", "create", "count"):
             eval(f"self.do_{func}('{cls}')")
+
         if func in ("show", "destroy"):
             eval(f"self.do_{func}('{cls} {id}')")
-        if func == "update":
+
+        if func == "update":  # update requires loop over maybe multiple vals
             for i in range(len(attr_val)):
                 eval(f"self.do_{func}('{cls} {id} {attr_name[i]}"
                      f" {attr_val[i]}')")
