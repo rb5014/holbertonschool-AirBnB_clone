@@ -60,10 +60,9 @@ class Test_FileStorage(unittest.TestCase):
     def test_reload(self):
         """test reload recreates all objects from "file.json"
         """
+        all_objs = self.storage.all().copy()
         base = BaseModel()
         base.save()
-        all_objs = self.storage.all().copy()
-        os.remove("file.json")
         FileStorage.reload(self.storage)
         for key in all_objs:
             self.assertTrue(len(all_objs) != len(self.storage.all()))
