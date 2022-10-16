@@ -80,7 +80,7 @@ class TestUser_instantiation(unittest.TestCase):
         dt = datetime.today()
         dt_iso = dt.isoformat()
         us = User(id="345", created_at=dt_iso, updated_at=dt_iso)
-        self.assertEqual(us.id, "345")
+        self.assertEqual(us.id, 345)
         self.assertEqual(us.created_at, dt)
         self.assertEqual(us.updated_at, dt)
 
