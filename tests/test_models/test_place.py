@@ -58,8 +58,8 @@ class TestPlace_instantiation(unittest.TestCase):
     def test_longitude_is_public_float(self):
         self.assertEqual(float, type(Place.longitude))
 
-    def test_plenity_ids_is_public_list(self):
-        self.assertEqual(list, type(Place.plenity_ids))
+    def test_amenity_ids_is_public_list(self):
+        self.assertEqual(list, type(Place.amenity_ids))
 
     def test_two_Places_unique_ids(self):
         pl1 = Place()

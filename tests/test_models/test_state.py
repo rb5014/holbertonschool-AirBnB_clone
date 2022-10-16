@@ -31,14 +31,8 @@ class TestState_instantiation(unittest.TestCase):
     def test_updated_at_is_public_datetime(self):
         self.assertEqual(datetime, type(State().updated_at))
 
-    def test_place_id_is_public_str(self):
-        self.assertEqual(str, type(State.place_id))
-
-    def test_user_id_is_public_str(self):
-        self.assertEqual(str, type(State.user_id))
-
-    def test_text_is_public_str(self):
-        self.assertEqual(str, type(State.text))
+    def test_name_is_public_str(self):
+        self.assertEqual(str, type(State.name))
 
     def test_two_States_unique_ids(self):
         st1 = State()
