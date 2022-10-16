@@ -31,17 +31,8 @@ class TestAmenity_instantiation(unittest.TestCase):
     def test_updated_at_is_public_datetime(self):
         self.assertEqual(datetime, type(Amenity().updated_at))
 
-    def test_email_is_public_str(self):
-        self.assertEqual(str, type(Amenity.email))
-
-    def test_password_is_public_str(self):
-        self.assertEqual(str, type(Amenity.password))
-
-    def test_first_name_is_public_str(self):
-        self.assertEqual(str, type(Amenity.first_name))
-
-    def test_last_name_is_public_str(self):
-        self.assertEqual(str, type(Amenity.last_name))
+    def test_name_is_public_str(self):
+        self.assertEqual(str, type(Amenity.name))
 
     def test_two_Amenitys_unique_ids(self):
         am1 = Amenity()
