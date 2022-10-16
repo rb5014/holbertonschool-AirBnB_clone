@@ -8,7 +8,7 @@ from models import storage
 from models.base_model import BaseModel
 
 
-class pl(BaseModel):
+class Place(BaseModel):
     """
     Class that define Place's data based on BaseModel
     """
