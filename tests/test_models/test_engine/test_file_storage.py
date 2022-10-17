@@ -16,47 +16,55 @@ class Test_FileStorage(unittest.TestCase):
     def setUp(self):
         """set up of the FileStorage instance
         """
-        self.storage = FileStorage()
         self.file_path = FileStorage._FileStorage__file_path
+        self.objects = FileStorage._FileStorage__objects
+
+    def tearDown(self):
+        try:
+            os.remove("file.json")
+        except Exception:
+            pass
 
     def test___file_path(self):
         """test of __file_path value equal to "file.json"
-        """   
-        self.assertTrue(type(self.file_path) == str)
+        """
+        self.assertEqual(type(self.file_path), str)
 
     def test__objects(self):
-        """test of __objects value equal to {}
+        """test of __objects value equal to []
         """
-        self.assertEqual(type(self.storage.all()), dict)
+        self.assertEqual(type(self.objects), dict)
 
     def test_all(self):
         """test of __objects value equal to storage.all()
         """
-        self.assertEqual(type(self.storage.all()), dict)
+        self.assertEqual(type(storage.all()), dict)
 
     def test_new(self):
         """test of new() adding new object to __objects
         """
-        all_objs = self.storage.all().copy()
+        all_objs = storage.all().copy()
         base = BaseModel()
-        all_objs2 = self.storage.all().copy()
+        all_objs2 = storage.all().copy()
         self.assertNotEqual(all_objs, all_objs2)
 
     def test_save(self):
         """test save() creates a file
         """
-        self.storage.save()
-        self.assertTrue(os.path.exists("file.json"))
+        base = BaseModel()
+        base.save()
+        self.assertTrue(os.path.exists(self.file_path))
 
     def test_reload(self):
         """test reload recreates all objects from "file.json"
         """
-        all_objs = self.storage.all().copy()
+        stcopy = storage.all().copy()
         base = BaseModel()
+        base2 = BaseModel()
         base.save()
-        FileStorage.reload(self.storage)
-        for key in all_objs:
-            self.assertTrue(len(all_objs) != len(self.storage.all()))
+        base2.save()
+        FileStorage.reload(storage)
+        self.assertNotEqual(storage.all(), stcopy)
 
     if __name__ == "__main__":
         unittest.main()
