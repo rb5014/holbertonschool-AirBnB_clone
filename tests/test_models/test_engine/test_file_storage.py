@@ -5,6 +5,7 @@
 import unittest
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
+from models import storage
 import os
 
 
@@ -20,9 +21,8 @@ class Test_FileStorage(unittest.TestCase):
     def test___file_path(self):
         """test of __file_path value equal to "file.json"
         """
-        # test filepath = None
-        FileStorage.__file_path = None
-
+        b = BaseModel()
+        b.save()
 
     def test__objects(self):
         """test of __objects value equal to {}
