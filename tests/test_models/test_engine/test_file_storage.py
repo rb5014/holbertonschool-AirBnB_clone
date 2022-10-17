@@ -59,6 +59,7 @@ class Test_FileStorage(unittest.TestCase):
         """test reload recreates all objects from "file.json"
         """
         stcopy = storage.all().copy()
+        print(stcopy)
         base = BaseModel()
         base2 = BaseModel()
         base.save()
