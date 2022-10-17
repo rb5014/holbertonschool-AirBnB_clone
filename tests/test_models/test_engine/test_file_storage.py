@@ -17,12 +17,12 @@ class Test_FileStorage(unittest.TestCase):
         """set up of the FileStorage instance
         """
         self.storage = FileStorage()
+        self.file_path = FileStorage._FileStorage__file_path
 
     def test___file_path(self):
         """test of __file_path value equal to "file.json"
-        """
-        b = BaseModel()
-        b.save()
+        """   
+        self.assertTrue(type(self.file_path) == str)
 
     def test__objects(self):
         """test of __objects value equal to {}
