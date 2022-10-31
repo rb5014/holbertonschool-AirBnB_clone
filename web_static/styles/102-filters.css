@@ -25,7 +25,7 @@
     opacity: 90%;
 }
 
-.locations, div.amenities {
+.filters .locations, .filters div.amenities {
     height: 100%;
     width: 25%;
 }
