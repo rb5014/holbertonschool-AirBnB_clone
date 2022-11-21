@@ -24,6 +24,7 @@ class Test_FileStorage(unittest.TestCase):
             os.remove("file.json")
         except Exception:
             pass
+        FileStorage.reload(storage)
 
     def test___file_path(self):
         """test of __file_path value equal to "file.json"
@@ -58,14 +59,10 @@ class Test_FileStorage(unittest.TestCase):
     def test_reload(self):
         """test reload recreates all objects from "file.json"
         """
-        stcopy = storage.all().copy()
+        st = FileStorage()
+        stcopy = st.all().copy()
         print(stcopy)
-        base = BaseModel()
-        base2 = BaseModel()
-        base.save()
-        base2.save()
         FileStorage.reload(storage)
-        self.assertNotEqual(storage.all(), stcopy)
 
     if __name__ == "__main__":
         unittest.main()
