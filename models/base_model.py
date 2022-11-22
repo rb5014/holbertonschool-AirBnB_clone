@@ -55,5 +55,8 @@ class BaseModel:
                 try:
                     value = int(value)
                 except Exception:
-                    pass
+                    try:
+                        value = float(value)
+                    except Exception:
+                        pass
                 setattr(self, key, value)
