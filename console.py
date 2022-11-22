@@ -40,10 +40,32 @@ class HBNBCommand(cmd.Cmd):
             print ** class name missing ** (ex: $ create)
             If the class name doesn’t exist:
             print ** class doesn't exist ** (ex: $ create MyModel)'''
-        if Errors_.error_checker("create", arg) is True:
-            b = eval(f"{arg}()")
+        # ex: State name="California" =>  # ('State', 'name="California"')
+        tuple_arg = tuple(arg.split())
+
+        # dict that will store all the key/value pairs
+        dict_attr = {}
+        
+        # loop on args to add key/value pairs to the dict of attributes
+        for elem in tuple_arg:
+            # same as: if not first element(we don't want to add
+            # the classname to the dict of attributes)
+            if '=' in elem:
+                # ex: 'name="California"' => ['name', '"California"']
+                elem = elem.split('=')
+                # add the key/value pair to the dict
+                # ex: dict[name] = "California"
+                dict_attr[elem[0]] = elem[1]
+
+        # create, save and print the id of the new object if no errors
+        if Errors_.error_checker("create", tuple_arg[0]) is True:
+            b = eval(f"{tuple_arg[0]}()")
             b.save()
             print(b.id)
+
+        # loop on dict of attributes to call do_update for each key/value pair
+        for key, val in dict_attr.items():
+            self.do_update(f"{tuple_arg[0]} {b.id} {key} {val}")
 
     def do_show(self, arg):
         """Prints the string representation of an instance based
@@ -146,8 +168,7 @@ class HBNBCommand(cmd.Cmd):
 
         if func == "update":  # update requires loop over maybe multiple vals
             for i in range(len(attr_val)):
-                eval(f"self.do_{func}('{cls} {id} {attr_name[i]}"
-                     f" {attr_val[i]}')")
+                self.do_update(f"{cls} {id} {attr_name[i]} {attr_val[i]}")
 
 
 if __name__ == '__main__':
