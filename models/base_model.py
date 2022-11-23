@@ -48,15 +48,17 @@ class BaseModel:
     def update(self, *args, **kwargs):
         """assigns an argument to each attribute(keys) in kwargs
         """
+        print(kwargs)
         for key, value in kwargs.items():
             if key == 'created_at' or key == 'updated_at':
-                setattr(self, key, datetime.fromisoformat(value))
-            elif key != '__class__':
+                value = datetime.fromisoformat(value)
+            elif key != '__class__' and "id" not in key:
                 try:
                     value = int(value)
+                    print(value)
                 except Exception:
                     try:
                         value = float(value)
                     except Exception:
                         pass
-                setattr(self, key, value)
+            setattr(self, key, value)

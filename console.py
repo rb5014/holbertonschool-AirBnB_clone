@@ -53,18 +53,11 @@ class HBNBCommand(cmd.Cmd):
             if '=' in elem:
                 # ex: 'name="California"' => ['name', '"California"']
                 elem = elem.split('=')
-                elem[1] = elem[1].replace('_', ' ')
                 # new_elem will get a new version of elem[1] with escape
                 # '\' before double quotes
-                new_elem = ''
-                for i, val in enumerate(elem[1]):
-                    if val == '"' and i > 0 and i < len(elem[1]) - 2:
-                        new_elem += '\\'
-                    new_elem += val
                 # add the key/value pair to the dict
                 # ex: dict[name] = "California"
-                print(new_elem)
-                dict_attr[elem[0]] = new_elem
+                dict_attr[elem[0]] = elem[1]
         # create, save and print the id of the new object if no errors
         if Errors_.error_checker("create", tuple_arg[0]) is True:
             b = eval(f"{tuple_arg[0]}()")
@@ -134,6 +127,8 @@ class HBNBCommand(cmd.Cmd):
         """
         args = re.split('[ "]', arg)
         args = [val for val in args if val]
+        if len(args) > 4:
+            args[3] = "".join([item for item in args[3:]]).replace('_', ' ')
         if Errors_.error_checker("update", arg) is True:
             for inst in d:
                 if args[1] in inst:
