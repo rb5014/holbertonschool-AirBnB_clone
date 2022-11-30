@@ -98,12 +98,17 @@ class HBNBCommand(cmd.Cmd):
         """CALLED BY do_all
         Return all string representation of all instances OF A CLASS
         """
-        list_obj = []
         if Errors_.error_checker("all", arg) is True:
+            flag = True  # to write ", " only when needed
+            print('[', end="")
             for obj_id in d:
                 if arg + "." in obj_id:
-                    list_obj.append(str(d[obj_id]))
-            print(list_obj)
+                    if flag is False:
+                        print(", ", end="")
+                    else:
+                        flag = False
+                    print(str(d[obj_id]), end="")
+            print(']')
 
     def do_destroy(self, arg):
         tuple_arg = tuple(arg.split())
