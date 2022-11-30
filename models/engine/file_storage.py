@@ -19,10 +19,16 @@ class FileStorage:
     # the key will be BaseModel.12121212)
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """
         returns the dictionary __objects
         """
+        if cls:
+            cls_dict = {}
+            for k, v in FileStorage.__objects.items():
+                if cls == type(v):
+                    cls_dict[k] = v
+            return cls_dict
         return FileStorage.__objects
 
     def new(self, obj):
@@ -65,3 +71,14 @@ class FileStorage:
                 FileStorage.__objects[obj_id] = eval(objd['__class__'])(**objd)
         except Exception:
             pass
+
+    def delete(self, obj=None):
+        """Delete a given object from __objects, if it exists."""
+        try:
+            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+        except (AttributeError, KeyError):
+            pass
+
+    def close(self):
+        """Call the reload method."""
+        self.reload()

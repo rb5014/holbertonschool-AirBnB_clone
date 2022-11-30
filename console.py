@@ -13,7 +13,6 @@ from models.state import State
 from models import storage
 import re
 from errors import Errors_
-d = storage.all()  # avoid to write the method everytime
 
 
 class HBNBCommand(cmd.Cmd):
@@ -44,8 +43,8 @@ class HBNBCommand(cmd.Cmd):
         tuple_arg = tuple(arg.split())
 
         # dict that will store all the key/value pairs
-        dict_attr = {}
-        
+        kwargs = {}
+
         # loop on args to add key/value pairs to the dict of attributes
         for elem in tuple_arg:
             # same as: if not first element(we don't want to add
@@ -57,21 +56,19 @@ class HBNBCommand(cmd.Cmd):
                 # '\' before double quotes
                 # add the key/value pair to the dict
                 # ex: dict[name] = "California"
-                dict_attr[elem[0]] = elem[1]
+                kwargs[elem[0]] = elem[1]
         # create, save and print the id of the new object if no errors
         if Errors_.error_checker("create", tuple_arg[0]) is True:
-            b = eval(f"{tuple_arg[0]}()")
+            b = eval(tuple_arg[0])(**kwargs)
+            storage.new(b)
             b.save()
             print(b.id)
-
-        # loop on dict of attributes to call do_update for each key/value pair
-        for key, val in dict_attr.items():
-            self.do_update(f"{tuple_arg[0]} {b.id} {key} {val}")
 
     def do_show(self, arg):
         """Prints the string representation of an instance based
         on the class name and id
         """
+        d = storage.all()
         if Errors_.error_checker("show", arg) is True:
             tuple_args = tuple(arg.split())
             print(d[f"{tuple_args[0]}.{tuple_args[1]}"])
@@ -89,15 +86,22 @@ class HBNBCommand(cmd.Cmd):
         """CALLED BY do_all
         Return a list of  all string representation of all instances
         """
-        list_obj = []
+        d = storage.all()
+        flag = True  # to write ", " only when needed
+        print('[', end="")
         for obj_id in d:
-            list_obj.append(str(d[obj_id]))
-        print(list_obj)
+            if flag is False:
+                print(", ", end="")
+            else:
+                flag = False
+            print(str(d[obj_id]), end="")
+        print(']')
 
     def print_cls_inst(self, arg):
         """CALLED BY do_all
         Return all string representation of all instances OF A CLASS
         """
+        d = storage.all()
         if Errors_.error_checker("all", arg) is True:
             flag = True  # to write ", " only when needed
             print('[', end="")
@@ -111,6 +115,7 @@ class HBNBCommand(cmd.Cmd):
             print(']')
 
     def do_destroy(self, arg):
+        d = storage.all()
         tuple_arg = tuple(arg.split())
         if Errors_.error_checker("destroy", arg) is True:
             del d[f"{tuple_arg[0]}.{tuple_arg[1]}"]
@@ -119,6 +124,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """Count and print the number of instances of a class
         """
+        d = storage.all()
         nb_instances = 0
         if Errors_.error_checker("count", arg) is True:
             for obj_id in d:
@@ -130,6 +136,7 @@ class HBNBCommand(cmd.Cmd):
         """Updates an instance based on the class name
         and id by adding or updating attribute
         """
+        d = storage.all()
         args = re.split('[ "]', arg)
         args = [val for val in args if val]
         if len(args) > 4:

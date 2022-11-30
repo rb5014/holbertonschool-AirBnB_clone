@@ -10,7 +10,6 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 import inspect
-d = storage.all()
 
 
 class Errors_():
