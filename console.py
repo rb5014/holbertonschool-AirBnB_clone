@@ -44,8 +44,8 @@ class HBNBCommand(cmd.Cmd):
         tuple_arg = tuple(arg.split())
 
         # dict that will store all the key/value pairs
-        dict_attr = {}
-        
+        kwargs = {}
+
         # loop on args to add key/value pairs to the dict of attributes
         for elem in tuple_arg:
             # same as: if not first element(we don't want to add
@@ -57,16 +57,16 @@ class HBNBCommand(cmd.Cmd):
                 # '\' before double quotes
                 # add the key/value pair to the dict
                 # ex: dict[name] = "California"
-                dict_attr[elem[0]] = elem[1]
+                kwargs[elem[0]] = elem[1]
         # create, save and print the id of the new object if no errors
         if Errors_.error_checker("create", tuple_arg[0]) is True:
-            b = eval(f"{tuple_arg[0]}()")
+            b = eval(tuple_arg[0])(**kwargs)
             b.save()
             print(b.id)
-
         # loop on dict of attributes to call do_update for each key/value pair
-        for key, val in dict_attr.items():
+        for key, val in kwargs.items():
             self.do_update(f"{tuple_arg[0]} {b.id} {key} {val}")
+            print(storage.all())
 
     def do_show(self, arg):
         """Prints the string representation of an instance based
@@ -132,6 +132,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = re.split('[ "]', arg)
         args = [val for val in args if val]
+        obj = {}
         if len(args) > 4:
             args[3] = "".join([item for item in args[3:]]).replace('_', ' ')
         if Errors_.error_checker("update", arg) is True:

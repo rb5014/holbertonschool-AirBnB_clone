@@ -10,7 +10,6 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 import inspect
-d = storage.all()
 
 
 class Errors_():
@@ -53,7 +52,7 @@ class Errors_():
         if len(tuple_args) < 2:
             print("** instance id missing **")
             return False
-        if tuple_args[0] + "." + tuple_args[1] not in d:
+        if tuple_args[0] + "." + tuple_args[1] not in storage.all():
             print("** no instance found **")
             return False
         return True
