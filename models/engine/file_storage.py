@@ -19,11 +19,15 @@ class FileStorage:
     # the key will be BaseModel.12121212)
     __objects = {}
 
-    def all(self):
-        """
-        returns the dictionary __objects
-        """
-        return FileStorage.__objects
+    def all(self, cls=None):
+        """Returns a dictionary of models currently in storage"""
+        if cls:
+            same = dict()
+            for key, row in self.__objects.items():
+                if row.__class__ == cls:
+                    same[key] = row
+            return same
+        return self.__objects
 
     def new(self, obj):
         """
@@ -65,3 +69,10 @@ class FileStorage:
                 FileStorage.__objects[obj_id] = eval(objd['__class__'])(**objd)
         except Exception:
             pass
+
+    def delete(self, obj=None):
+        """delete obj froom __object"""
+        if obj is not None:
+            key = obj.__class__.__name__ + '.' + obj.id
+            if key in self.__objects:
+                del self.__objects[key]
