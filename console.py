@@ -66,7 +66,6 @@ class HBNBCommand(cmd.Cmd):
         # loop on dict of attributes to call do_update for each key/value pair
         for key, val in kwargs.items():
             self.do_update(f"{tuple_arg[0]} {b.id} {key} {val}")
-            print(storage.all())
 
     def do_show(self, arg):
         """Prints the string representation of an instance based
