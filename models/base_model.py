@@ -5,27 +5,34 @@
 import uuid
 from datetime import datetime
 from models import storage
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, DateTime
+import os
+Base = declarative_base()
 
 
 class BaseModel:
     '''Parent class to store data'''
 
+    id = Column(String(60), nullable=False, primary_key=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
     def __init__(self, *args, **kwargs):
         '''BaseModel Constructor'''
 
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = self.created_at
         if kwargs:
             self.update(*args, **kwargs)
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = self.created_at
-            storage.new(self)
 
     def __str__(self):
         '''Method to change print output of the instance'''
-
+        dictInst = self.__dict__.copy()
+        dictInst.pop("_sa_instance_state", None)
         return ("[{}] ({}) {}".format(self.__class__.__name__,
-                                      self.id, self.__dict__))
+                                      self.id, dictInst))
 
     def save(self):
         '''
@@ -33,6 +40,7 @@ class BaseModel:
         change in the public instance attribute <updated_at>
         '''
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
@@ -43,6 +51,7 @@ class BaseModel:
         dictInst['__class__'] = self.__class__.__name__
         dictInst['created_at'] = datetime.isoformat(dictInst['created_at'])
         dictInst['updated_at'] = datetime.isoformat(dictInst['updated_at'])
+        dictInst.pop("_sa_instance_state", None)
         return dictInst
 
     def update(self, *args, **kwargs):
@@ -60,3 +69,7 @@ class BaseModel:
                     except Exception:
                         pass
             setattr(self, key, value)
+
+    def delete(self):
+        """delete the current instance from the storage"""
+        storage.delete(self)
