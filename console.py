@@ -53,6 +53,7 @@ class HBNBCommand(cmd.Cmd):
             if '=' in elem:
                 # ex: 'name="California"' => ['name', '"California"']
                 elem = elem.split('=')
+                elem[1] = elem[1].strip('"')
                 # new_elem will get a new version of elem[1] with escape
                 # '\' before double quotes
                 # add the key/value pair to the dict
