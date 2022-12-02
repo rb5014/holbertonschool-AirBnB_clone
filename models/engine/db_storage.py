@@ -41,7 +41,7 @@ class DBStorage:
         if cls is None:
             objs = self.__session.query(State).all()
             objs.extend(self.__session.query(City).all())
-            # objs.extend(self.__session.query(User).all())
+            objs.extend(self.__session.query(User).all())
             # objs.extend(self.__session.query(Place).all())
             # objs.extend(self.__session.query(Review).all())
             # objs.extend(self.__session.query(Amenity).all())
@@ -66,6 +66,12 @@ class DBStorage:
 
     def reload(self):
         """create all tables + create current database session"""
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
