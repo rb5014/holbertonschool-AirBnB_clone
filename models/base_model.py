@@ -68,7 +68,10 @@ class BaseModel:
                     try:
                         value = float(value)
                     except Exception:
-                        pass
+                        try:
+                            value = value.replace('_', ' ')
+                        except Exception:
+                            pass
             setattr(self, key, value)
 
     def delete(self):

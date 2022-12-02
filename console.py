@@ -134,7 +134,8 @@ class HBNBCommand(cmd.Cmd):
         args = [val for val in args if val]
         obj = {}
         if len(args) > 4:
-            args[3] = "".join([item for item in args[3:]]).replace('_', ' ')
+            args[3] = "".join([item for item in args[3:]])
+            print(args[3])
         if Errors_.error_checker("update", arg) is True:
             for inst in d:
                 if args[1] in inst:
